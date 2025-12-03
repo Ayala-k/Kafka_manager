@@ -20,19 +20,26 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "kafka-topics --bootstrap-server kafka:9092 --list || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
 
   app:
     build: .
     container_name: kafka_example_app
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     environment:
-
       ZMQ_SERVER_HOST: "127.0.0.1"
       ZMQ_SERVER_PORT: "5555"
     ports:
       - "5555:5555"
+    command: [ "python", "src/main.py" ]

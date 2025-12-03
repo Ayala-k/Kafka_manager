@@ -3,7 +3,7 @@
 
     <kafka_configuration>
 
-        <bootstrap_servers>localhost:9092</bootstrap_servers>
+        <bootstrap_servers>kafka:9092</bootstrap_servers>
 
         <topics>
             <topic>example_topic</topic>
