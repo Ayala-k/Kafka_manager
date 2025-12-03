@@ -5,6 +5,7 @@ from infrastructure.interfaces.iexample_manager import IExampleManager
 from infrastructure.interfaces.izmq_server_manager import IZmqServerManager
 from model.managers.example_manager import ExampleManager
 from infrastructure.interfaces.ilogger_manager import ILoggerManager
+from infrastructure.factories.api_factory import ApiFactory
 
 
 class ManagerFactory:
@@ -20,14 +21,18 @@ class ManagerFactory:
         config_path = ManagerFactory._get_config_path()
         config_manager = InfrastructureFactory.create_config_manager(
             config_path)
-        return ExampleManager(
-            config_manager,
-            InfrastructureFactory.create_kafka_manager(config_manager)
-        )
+
+        kafka_manager = InfrastructureFactory.create_kafka_manager(
+            config_manager)
+        ManagerFactory._kafka_manager = kafka_manager
+
+        return ExampleManager(config_manager, kafka_manager)
 
     @staticmethod
     def create_example_zmq_manager() -> IZmqServerManager:
-        return InfrastructureFactory.create_zmq_server_manager()
+        kafka_manager = ManagerFactory._kafka_manager
+        routers = ApiFactory.create_routers(kafka_manager)
+        return InfrastructureFactory.create_zmq_server_manager(routers)
 
     @staticmethod
     def create_all():
