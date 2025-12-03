@@ -7,6 +7,8 @@
 
         <topics>
             <topic>example_topic</topic>
+            <topic>another_topic</topic>
+            <topic>broadcast_topic</topic>
         </topics>
 
     </kafka_configuration>

@@ -34,7 +34,12 @@ class ConstStrings:
     KAFKA_ROOT_CONFIGURATION_NAME = "kafka_configuration"
 
     EXAMPLE_TOPIC = "example_topic"
+    ANOTHER_TOPIC = "another_topic"
+    BROADCAST_TOPIC = "broadcast_topic"
+
     EXAMPLE_MESSAGE = "example_message"
+    ANOTHER_MESSAGE = "another_message"
+    BROADCAST_MESSAGE = "broadcast_message"
 
     DECODE_FORMAT = 'utf-8'
     ENCODE_FORMAT = 'utf-8'
