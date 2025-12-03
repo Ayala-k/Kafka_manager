@@ -7,8 +7,8 @@ from infrastructure.interfaces.iexample_controller import IExampleController
 
 
 class ExampleRouter(BaseRouter):
-    def __init__(self, resource: str, example_controller: IExampleController):
-        super().__init__(resource)
+    def __init__(self, example_controller: IExampleController):
+        super().__init__(ConstStrings.EXAMPLE_RESOURCE)
         self._example_controller = example_controller
         self._prot_setup_operations()
 
@@ -19,3 +19,4 @@ class ExampleRouter(BaseRouter):
 
     def _example_function(self, data: Optional[Dict] = None) -> Response:
         return self._example_controller.example_function(data)
+

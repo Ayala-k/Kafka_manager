@@ -8,10 +8,10 @@ from infrastructure.interfaces.iapi_router import IApiRouter
 
 class ApiFactory:
     @staticmethod
-    def create_routers() -> List[IApiRouter]:
-        return [
-            ApiFactory.create_example_router(),
-        ]
+    def create_routers(kafka_manager: IKafkaManager) -> List[IApiRouter]:
+        example_controller = ExampleController(kafka_manager)
+        example_router = ExampleRouter(example_controller)
+        return [example_router]
 
     @staticmethod
     def create_example_router() -> IApiRouter:
